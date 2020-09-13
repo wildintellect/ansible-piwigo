@@ -1,0 +1,16 @@
+- name: Setting up a remote server
+  hosts: piwigo-droplet
+  connection: local #change?
+  #debugger: on_skipped
+  debugger: on_failed
+  become: true
+  pre_tasks:
+    - name: update repositories
+      apt:
+            update_cache=yes
+            upgrade=dist # to resolve the warning message "Could not find aptitude. Using apt-get instead"
+      changed_when: False
+  roles:
+  - role: piwigo
+      users:
+        - username: "{{ansible_facts['user_id']}}"
