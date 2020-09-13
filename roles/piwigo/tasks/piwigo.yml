@@ -1,0 +1,12 @@
+---
+# Install Piwigo
+- name: Install tools
+  apt:
+    name:
+      curl
+      unzip
+  # grab the latest installer and unzip
+
+# configure
+
+# Second playbook to import the old data?

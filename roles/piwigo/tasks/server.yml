@@ -1,0 +1,32 @@
+
+---
+# Install Nginx
+- name: Install Nginx
+  apt:
+    name:
+      - nginx
+    state: present
+    autoclean: yes
+    update_cache: true
+# Install Php
+- name: Install Php
+  apt:
+    name:
+      - php-common
+      - php-mbstring
+      - php-xmlrpc
+      - php-gd
+      - php-xml
+      - php-intl
+      - php-mysql
+      - php-cli
+      - php-ldap
+      - php-zip
+      - php-curl
+    state: present
+    autoclean: yes
+    update_cache: true
+# Configure Nginx
+# Do we want to use php-fpm probably
+# https://howto.wared.fr/installation-piwigo-nginx-mariadb-ubuntu/
+# https://websiteforstudents.com/install-the-piwigo-photo-gallery-on-ubuntu-16-04-17-10-18-04-with-apache2-mariadb-and-php-7-2-support/
