@@ -11,6 +11,9 @@
             upgrade=dist # to resolve the warning message "Could not find aptitude. Using apt-get instead"
       changed_when: False
   roles:
-  - role: piwigo
-      users:
-        - username: "{{ansible_facts['user_id']}}"
+    #https://github.com/vitalk/ansible-secure-ssh
+    - role: vitalk.secure-ssh
+      ssh_user: piwigo,
+      ssh_identity_key: /home/{{ansible_facts['user_id']}}/.ssh/id_rsa4.pub }
+    - role: piwigo
+    # This needs mariadb password settings - do they go here or in a .env file
