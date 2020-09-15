@@ -11,12 +11,36 @@
 #    update_cache: true
 
 # Install Config files
+- name: Create virtual host file
+  template:
+    src: vhost.conf
+    dest: /etc/apache2/sites-available/{{ servername }}.conf
+
+- name: Create virtual host file ssl
+  template:
+    src: vhost-ssl.conf
+    dest: /etc/apache2/sites-available/{{ servername }}-ssl.conf
+
+# Enable configs
+- name: a2ensite {{ servername }}
+  command: a2ensite {{ servername }}
+  args:
+    creates: /etc/apache2/sites-enabled/{{ servername }}.conf
+
+- name: a2ensite {{ domain }}-ssl
+  command: a2ensite {{ servername }}-ssl
+  args:
+    creates: /etc/apache2/sites-enabled/{{ servername }}-ssl.conf
+  notify:
+  - restart apache2
+
 
 # Configure Mode
-- apache2_module:
+- name: Configure Apache mpm
+  apache2_module:
     state: present
     name: mpm_event
-    ignore_configcheck: True
+    ignore_configcheck: False
 
 # Configure Nginx
 # Do we want to use php-fpm probably
