@@ -1,0 +1,39 @@
+{% for vhost in apache_vhosts %}
+NameVirtualHost *:443
+<VirtualHost *:443>
+	ServerName {{ vhost.servername }}
+	{% if vhost.serveradmin is defined %}
+	ServerAlias {{vhost.serveralias}}
+	{% endif %}
+	{% if vhost.serveradmin is defined %}
+	ServerAdmin {{ vhost.serveradmin }}
+	{% endif %}
+
+	SSLEngine On
+	#SSLCertificateFile /etc/apache2/ssl/selfsigned.pem
+	SSLCertificateFile /etc/letsencrypt/live/{{ vhost.servername }}/fullchain.pem
+	SSLCertificateKeyFile /etc/letsencrypt/live/{{ vhost.servername }}/privkey.pem
+
+
+	Alias /robots.txt /var/www/robots.txt
+    <Location "/robots.txt">
+        SetHandler None
+    </Location>
+
+    DocumentRoot {{ vhost.documentroot }}
+	<Directory {{ vhost.documentroot }}>
+        DirectoryIndex index.php
+        Options +FollowSymLinks -Indexes
+    </Directory>
+
+	ErrorLog /var/log/apache2/{{ vhost.servername }}-error_ssl.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog /var/log/apache2/{{ vhost.servername }}-access_ssl.log combined
+	ServerSignature Off
+
+</VirtualHost>
+{% endfor %}
