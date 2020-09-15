@@ -1,0 +1,8 @@
+---
+  - name: Copy Key File
+    copy:
+      src: id_rsa.pub
+      dest: "/home/{{ user }}/.ssh/"
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: '0444'

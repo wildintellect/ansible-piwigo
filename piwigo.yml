@@ -1,5 +1,7 @@
 - name: Setting up a remote server
   hosts: piwigo-droplet
+  vars:
+    user: piwigo
   connection: local #change?
   #debugger: on_skipped
   debugger: on_failed
@@ -10,14 +12,16 @@
             update_cache=yes
             upgrade=dist # to resolve the warning message "Could not find aptitude. Using apt-get instead"
       changed_when: False
+    - name: copy public key
+      include: roles/piwigo/tasks/copykey.yml
   roles:
     #https://github.com/vitalk/ansible-secure-ssh
-    - role: vitalk.secure-ssh
-      ssh_user: piwigo,
-      ssh_identity_key: /home/{{ansible_facts['user_id']}}/.ssh/id_rsa4.pub }
+    - role: ansible-secure-ssh
+      ssh_user: piwigo
+      ssh_identity_key: /home/piwigo/.ssh/id_rsa.pub
     - role: piwigo
-        vars:
-          apache_vhosts:
-            - {servername: "photos.wildintellect.com", documentroot: "/var/www/photos", serveradmin: "tech@wildintellect.com"}
-    
+      vars:
+        apache_vhosts:
+          - {servername: "photos.wildintellect.com", documentroot: "/var/www/photos", serveradmin: "tech@wildintellect.com"}
+
     # This needs mariadb password settings - do they go here or in a .env file
