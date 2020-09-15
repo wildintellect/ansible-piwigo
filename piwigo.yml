@@ -16,4 +16,8 @@
       ssh_user: piwigo,
       ssh_identity_key: /home/{{ansible_facts['user_id']}}/.ssh/id_rsa4.pub }
     - role: piwigo
+        vars:
+          apache_vhosts:
+            - {servername: "photos.wildintellect.com", documentroot: "/var/www/photos", serveradmin: "tech@wildintellect.com"}
+    
     # This needs mariadb password settings - do they go here or in a .env file
