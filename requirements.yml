@@ -1,3 +1,4 @@
 # from Ansible Galaxy
-- src: https://github.com/vitalk/ansible-secure-ssh
-  version: 0.3.0  
+#- src: https://github.com/vitalk/ansible-secure-ssh
+#  version: 0.3.0
+- src: https://github.com/wildintellect/ansible-secure-ssh

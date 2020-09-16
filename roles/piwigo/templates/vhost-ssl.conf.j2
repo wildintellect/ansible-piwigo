@@ -1,18 +1,18 @@
-{% for vhost in apache_vhosts %}
+
 NameVirtualHost *:443
 <VirtualHost *:443>
-	ServerName {{ vhost.servername }}
-	{% if vhost.serveradmin is defined %}
-	ServerAlias {{vhost.serveralias}}
+	ServerName {{ servername }}
+	{% if serveradmin is defined %}
+	ServerAlias {{serveralias}}
 	{% endif %}
-	{% if vhost.serveradmin is defined %}
-	ServerAdmin {{ vhost.serveradmin }}
+	{% if serveradmin is defined %}
+	ServerAdmin {{ serveradmin }}
 	{% endif %}
 
 	SSLEngine On
 	#SSLCertificateFile /etc/apache2/ssl/selfsigned.pem
-	SSLCertificateFile /etc/letsencrypt/live/{{ vhost.servername }}/fullchain.pem
-	SSLCertificateKeyFile /etc/letsencrypt/live/{{ vhost.servername }}/privkey.pem
+	SSLCertificateFile /etc/letsencrypt/live/{{ servername }}/fullchain.pem
+	SSLCertificateKeyFile /etc/letsencrypt/live/{{ servername }}/privkey.pem
 
 
 	Alias /robots.txt /var/www/robots.txt
@@ -20,20 +20,19 @@ NameVirtualHost *:443
         SetHandler None
     </Location>
 
-    DocumentRoot {{ vhost.documentroot }}
-	<Directory {{ vhost.documentroot }}>
+    DocumentRoot {{ documentroot }}
+	<Directory {{ documentroot }}>
         DirectoryIndex index.php
         Options +FollowSymLinks -Indexes
     </Directory>
 
-	ErrorLog /var/log/apache2/{{ vhost.servername }}-error_ssl.log
+	ErrorLog /var/log/apache2/{{ servername }}-error_ssl.log
 
 	# Possible values include: debug, info, notice, warn, error, crit,
 	# alert, emerg.
 	LogLevel warn
 
-	CustomLog /var/log/apache2/{{ vhost.servername }}-access_ssl.log combined
+	CustomLog /var/log/apache2/{{ servername }}-access_ssl.log combined
 	ServerSignature Off
 
 </VirtualHost>
-{% endfor %}

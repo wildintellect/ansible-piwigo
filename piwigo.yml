@@ -18,10 +18,11 @@
     #https://github.com/vitalk/ansible-secure-ssh
     - role: ansible-secure-ssh
       ssh_user: piwigo
-      ssh_identity_key: /home/piwigo/.ssh/id_rsa.pub
+      #ssh_identity_key: /home/piwigo/.ssh/id_rsa.pub
     - role: piwigo
       vars:
-        apache_vhosts:
-          - {servername: "photos.wildintellect.com", documentroot: "/var/www/photos", serveradmin: "tech@wildintellect.com"}
+        servername: "photos.wildintellect.com"
+        documentroot: "/var/www/photos"
+        serveradmin: "tech@wildintellect.com"
 
     # This needs mariadb password settings - do they go here or in a .env file
