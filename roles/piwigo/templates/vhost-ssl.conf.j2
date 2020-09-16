@@ -2,7 +2,7 @@
 NameVirtualHost *:443
 <VirtualHost *:443>
 	ServerName {{ servername }}
-	{% if serveradmin is defined %}
+	{% if serveralias is defined %}
 	ServerAlias {{serveralias}}
 	{% endif %}
 	{% if serveradmin is defined %}

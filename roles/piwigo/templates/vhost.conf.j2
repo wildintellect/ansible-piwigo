@@ -2,7 +2,7 @@
 ExtendedStatus On
 <VirtualHost *:80>
     ServerName {{ servername }}
-	{% if serveradmin is defined %}
+	{% if serveralias is defined %}
 	ServerAlias {{serveralias}}
 	{% endif %}
 	{% if serveradmin is defined %}

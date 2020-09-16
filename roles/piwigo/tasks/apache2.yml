@@ -13,12 +13,12 @@
 # Install Config files
 - name: Create virtual host file
   template:
-    src: vhost.conf
+    src: vhost.conf.j2
     dest: /etc/apache2/sites-available/{{ servername }}.conf
 
 - name: Create virtual host file ssl
   template:
-    src: vhost-ssl.conf
+    src: vhost-ssl.conf.j2
     dest: /etc/apache2/sites-available/{{ servername }}-ssl.conf
 
 # Enable configs
@@ -32,8 +32,7 @@
   args:
     creates: /etc/apache2/sites-enabled/{{ servername }}-ssl.conf
   notify:
-  - restart apache2
-
+  - reload apache2
 
 # Configure Mode
 - name: Configure Apache mpm
@@ -41,6 +40,20 @@
     state: present
     name: mpm_event
     ignore_configcheck: False
+  notify:
+  - restart apache2
+
+handlers:
+  - name: restart apache2
+    service:
+      name: apache2
+      state: restarted
+  - name: reload apache2
+    service:
+      name: apache2
+      state: reloaded
+
+
 
 # Configure Nginx
 # Do we want to use php-fpm probably
