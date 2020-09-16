@@ -3,10 +3,24 @@
 - name: Install tools
   apt:
     name:
-      curl
-      unzip
-  # grab the latest installer and unzip
+    - curl
+    - unzip
+    state: present
+    autoclean: yes
 
+- name: Create firefox parent directory
+  file:
+    path: /var/www/photos
+    state: directory
+    mode: '0755'
+    owner: www-data
+    group: www-data
+
+# grab the latest installer and unzip
+- name: Download Piwigo NetInstaller
+  get_url:
+    dest: /var/www/photos/piwigo-netinstall.php
+    url: http://piwigo.org/download/dlcounter.php?code=netinstall
 # configure
 
 # Second playbook to import the old data?
